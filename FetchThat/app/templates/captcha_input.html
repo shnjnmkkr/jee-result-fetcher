@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter DOB and CAPTCHA</title>
+</head>
+<body>
+    <h2>Student: {{ student_name }}</h2>
+    <h3>Branch: {{ branch }}</h3>
+
+    <form action="/submit_form" method="POST">
+        <label for="dob">Select Date of Birth:</label>
+        <select name="dob" id="dob" required>
+            <option value="1998-01-01">1998-01-01</option>
+            <option value="1999-02-15">1999-02-15</option>
+            <option value="2000-03-20">2000-03-20</option>
+            <!-- Add more options here -->
+        </select>
+        <br><br>
+
+        <label for="captcha">Enter CAPTCHA:</label><br>
+        <img src="{{ url_for('static', filename='captcha.jpg') }}" alt="CAPTCHA" /><br>
+        <input type="text" name="captcha" id="captcha" placeholder="Enter CAPTCHA" required>
+        <br><br>
+
+        <input type="hidden" name="application_number" value="{{ application_number }}">
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+
+
