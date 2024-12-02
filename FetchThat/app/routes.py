@@ -13,7 +13,7 @@ from PIL import Image, UnidentifiedImageError
 app = Flask(__name__)
 
 # Load Student Data
-data_path = r'C:\Users\User\Work\Self\FetchThat\databases\dtu2023\file0816.csv'
+data_path = #REDACTED
 students_df = pd.read_csv(data_path, on_bad_lines='skip')
 students_df.columns = students_df.columns.str.strip()  # Clean up column names
 
