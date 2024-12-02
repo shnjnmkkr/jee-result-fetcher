@@ -9,25 +9,64 @@
     <h2>Student: {{ student_name }}</h2>
     <h3>Branch: {{ branch }}</h3>
 
-    <form action="/submit_form" method="POST">
-        <label for="dob">Select Date of Birth:</label>
-        <select name="dob" id="dob" required>
-            <option value="1998-01-01">1998-01-01</option>
-            <option value="1999-02-15">1999-02-15</option>
-            <option value="2000-03-20">2000-03-20</option>
-            <!-- Add more options here -->
+    <form action="/submit_form" method="POST" id="dobForm">
+        <label for="dobYear">Year:</label>
+        <select name="dobYear" id="dobYear" required>
+            <option value="" disabled selected>Select Year</option>
+            {% for year in years %}
+                <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
         </select>
+
+        <label for="dobMonth">Month:</label>
+        <select name="dobMonth" id="dobMonth" required>
+            <option value="" disabled selected>Select Month</option>
+            {% for month in months %}
+                <option value="{{ month }}">{{ month }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="dobDay">Day:</label>
+        <select name="dobDay" id="dobDay" required>
+            <option value="" disabled selected>Select Day</option>
+            {% for day in range(1, 32) %}
+                <option value="{{ day | string }}">{{ day | string }}</option>
+            {% endfor %}
+        </select>
+
         <br><br>
 
         <label for="captcha">Enter CAPTCHA:</label><br>
-        <img src="{{ url_for('static', filename='captcha.jpg') }}" alt="CAPTCHA" /><br>
+        <img src="{{ url_for('static', filename='captcha.png') }}" alt="CAPTCHA" style="height: 40px; width: 160px; border: 1px solid #000;"/><br>
         <input type="text" name="captcha" id="captcha" placeholder="Enter CAPTCHA" required>
         <br><br>
 
         <input type="hidden" name="application_number" value="{{ application_number }}">
+        <input type="hidden" name="dob" id="dob"> <!-- Hidden DOB input field -->
+
         <button type="submit">Submit</button>
     </form>
+
+    <script>
+        document.getElementById('dobForm').addEventListener('submit', function (event) {
+            // Combine Year, Month, and Day into a single DOB string
+            const year = document.getElementById('dobYear').value;
+            const month = document.getElementById('dobMonth').value;
+            const day = document.getElementById('dobDay').value;
+
+            // Ensure all fields are selected
+            if (!year || !month || !day) {
+                alert("Please select a complete Date of Birth.");
+                event.preventDefault(); // Prevent form submission if fields are incomplete
+                return;
+            }
+
+            // Format the DOB as DD/MM/YYYY
+            const dob = `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
+
+            // Set the value of the dob input field
+            document.getElementById('dob').value = dob;
+        });
+    </script>
 </body>
 </html>
-
-
